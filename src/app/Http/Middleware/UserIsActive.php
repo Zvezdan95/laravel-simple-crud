@@ -11,10 +11,14 @@ class UserIsActive
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if ($request->user()->statis->isActive()) {
+            return $next($request);
+        }
+        return redirect('/home');
     }
 }
+
