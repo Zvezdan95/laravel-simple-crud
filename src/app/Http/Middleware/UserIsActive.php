@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserIsActive
@@ -15,10 +16,11 @@ class UserIsActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->statis->isActive()) {
+        if ($request->user()->status->isActive()) {
             return $next($request);
         }
-        return redirect('/home');
+        Auth::logout();
+        return redirect('/');
     }
 }
 
