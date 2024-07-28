@@ -16,10 +16,14 @@ class UserIsActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()->status->isActive()) {
-            return $next($request);
+        if ($user = $request->user()) {
+            if ($user->status->isActive()) {
+                return $next($request);
+            }
+            Auth::logout();
+            return redirect('/');
         }
-        Auth::logout();
+
         return redirect('/');
     }
 }

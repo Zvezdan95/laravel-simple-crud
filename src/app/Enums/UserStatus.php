@@ -22,4 +22,15 @@ enum UserStatus: string
     {
         return $this === UserStatus::BANNED;
     }
+
+    public function toLabel(): string
+    {
+        return match ($this) {
+            self::INACTIVE => 'Inactive',
+
+            self::ACTIVE => 'Active',
+
+            self::BANNED => 'Banned',
+        };
+    }
 }
