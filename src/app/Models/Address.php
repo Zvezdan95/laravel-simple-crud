@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Address extends Model
 {
@@ -33,8 +34,8 @@ class Address extends Model
         return $this->belongsTo(Country::class);
     }
 
-    public function legalEntity(): BelongsTo|null
+    public function legalEntity(): HasOne|null
     {
-        return $this->belongsTo(LegalEntity::class);
+        return $this->hasOne(LegalEntity::class);
     }
 }

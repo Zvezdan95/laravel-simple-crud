@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LegalEntity extends Model
 {
-    use HasFactory;
     protected $fillable = [
         'company_name',
         'tax_number',
         'registration_number',
         'bank_account_number',
     ];
-    public function address(): HasOne
+    public function address(): BelongsTo
     {
-        return $this->hasOne(Address::class); // changed from belongsTo to hasOne
+        return $this->belongsTo(Address::class);
     }
 }

@@ -9,10 +9,11 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index(?int $id = null)
+    public function index(?int $id = null): View
     {
         return view('user.upsert', [
             'user' => User::find($id),
