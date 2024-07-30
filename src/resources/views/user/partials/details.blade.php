@@ -13,28 +13,30 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+    <form method="post" action="{{ route('user.upsert') }}" class="mt-6 space-y-6"
+          enctype="multipart/form-data">
         @csrf
-        @method('patch')
         <input type="hidden" name="user_id" value="{{$user?->id}}">
-
         <div>
-            @if($user-> profile_picture)
-                <img src="{{$user->getProfilePicture()}}" alt="profile picture">
+            @if($user?-> profile_picture)
+                <img src="{{$user?->getProfilePicture()}}" alt="profile picture">
             @else
-                <span class="block font-medium text-sm text-gray-700 dark:text-gray-300">no pic</span>
+                <span
+                    class="block font-medium text-sm text-gray-700 dark:text-gray-300">no pic</span>
             @endif
         </div>
 
         <div class="block font-medium text-sm text-gray-700 dark:text-gray-300">
             <x-input-label for="profile_picture" :value="__('Profile Picture')"/>
-            <input type="file" id="profile_picture" name="profile_picture" class="mt-1 block w-full"/>
+            <input type="file" id="profile_picture" name="profile_picture"
+                   class="mt-1 block w-full"/>
             <x-input-error class="mt-2" :messages="$errors->get('profile_picture')"/>
         </div>
 
         <div>
             <x-input-label for="name" :value="__('Name')"/>
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
+                          :value="old('name', $user?->name)"
                           required autofocus autocomplete="name"/>
             <x-input-error class="mt-2" :messages="$errors->get('name')"/>
         </div>
@@ -42,14 +44,23 @@
         <div>
             <x-input-label for="username" :value="__('Username')"/>
             <x-text-input id="username" name="username" type="text" class="mt-1 block w-full"
-                          :value="old('username', $user->username)" required autofocus autocomplete="username"/>
+                          :value="old('username', $user?->username)" required autofocus
+                          autocomplete="username"/>
             <x-input-error class="mt-2" :messages="$errors->get('username')"/>
         </div>
 
         <div>
+            <x-input-label for="password" :value="__('Password')"/>
+            <x-text-input id="password" name="password" type="password" class="mt-1 block w-full" autofocus
+                          autocomplete="password"/>
+            <x-input-error class="mt-2" :messages="$errors->get('password')"/>
+        </div>
+
+        <div>
             <x-input-label for="phone_number" :value="__('Phone Number')"/>
-            <x-text-input id="phone_number" name="phone_number" type="text" class="mt-1 block w-full"
-                          :value="old('phone_number', $user->phone_number)" required autofocus
+            <x-text-input id="phone_number" name="phone_number" type="text"
+                          class="mt-1 block w-full"
+                          :value="old('phone_number', $user?->phone_number)" required autofocus
                           autocomplete="phone_number"/>
             <x-input-error class="mt-2" :messages="$errors->get('phone_number')"/>
         </div>
@@ -57,27 +68,20 @@
         <div>
             <x-input-label for="email" :value="__('Email')"/>
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
-                          :value="old('email', $user->email)" required autocomplete="username"/>
+                          :value="old('email', $user?->email)" required autocomplete="username"/>
             <x-input-error class="mt-2" :messages="$errors->get('email')"/>
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
+        </div>
+        <div>
+            <x-input-label for="status" :value="__('Status')"/>
+            <select id="status" name="status"
+                    class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
 
-                        <button form="send-verification"
-                                class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
-
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
-                    @endif
-                </div>
-            @endif
+                @foreach($userStatuses as $status)
+                    <option value="{{$status->value}}">{{$status->toLabel()}}</option>
+                @endforeach
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('status')"/>
         </div>
 
         <div class="flex items-center gap-4">

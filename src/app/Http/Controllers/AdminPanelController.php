@@ -26,11 +26,7 @@ class AdminPanelController extends Controller
         ]);
     }
 
-    public function deleteUser(Request $request): RedirectResponse
-    {
-        $userDeleted = User::find($request->input("delete_user"))->delete();
-        return redirect("/admin");
-    }
+
     public function changeUserStatus(Request $request): RedirectResponse
     {
         ["status" => $status, "selected" =>$selected] = $request->input();

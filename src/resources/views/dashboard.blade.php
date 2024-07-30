@@ -9,7 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form class="action-cell" action="/admin/change-user-status" method="POST" id="change-user-status-form">
+                    <form class="action-cell" action="/admin/change-user-status" method="POST"
+                          id="change-user-status-form">
                         @csrf
                         <select class="text-gray-900" name="status">
                             @foreach($userStatuses as $status)
@@ -17,6 +18,9 @@
                             @endforeach
                         </select>
                         <x-primary-button class="btn ml-4" type="submit">Change Status</x-primary-button>
+                        <x-nav-link :href="route('user')">
+                            {{ __('Create a new User') }}
+                        </x-nav-link>
                     </form>
                 </div>
             </div>
@@ -25,6 +29,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+
+
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <table class="w-full table-fixed">
                         <thead>
@@ -42,7 +48,8 @@
                                 @foreach($userHeaders as $key => $header)
                                     <td class="text-center">
                                         @if($key === "profile_picture" && $user->profile_picture)
-                                            <img src="{{$user->getProfilePicture()}}" alt="profile pic" height="64" width="64">
+                                            <img src="{{$user->getProfilePicture()}}" alt="profile pic" height="64"
+                                                 width="64">
                                         @else
                                             {{$user->$key ?: "--"}}
                                         @endif
@@ -53,13 +60,16 @@
                                            type="checkbox">
                                 </td>
                                 <td class="action-cell">
-                                    <form action="/admin/delete-user" method="POST">
+                                    <form action="{{ route('user.delete') }}" method="POST">
                                         @csrf
+                                        @method('delete')
                                         <input type="hidden" name="delete_user" value="{{$user->id}}">
                                         <x-primary-button class="btn" type="submit">Delete</x-primary-button>
                                     </form>
-                                    <a class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
-                                       href="#">Edit</a>
+
+                                    <x-nav-link :href="route('user', ['id'=>  $user->id])">
+                                        {{ __('Edit') }}
+                                    </x-nav-link>
                                 </td>
                             </tr>
                         @endforeach

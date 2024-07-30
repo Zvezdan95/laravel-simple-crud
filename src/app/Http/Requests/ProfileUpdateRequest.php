@@ -19,8 +19,8 @@ class ProfileUpdateRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'profile_picture' => ['nullable', Rule::dimensions()->maxWidth(400)->maxHeight(400)],
             'phone_number' => ['string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'username' => ['required', 'string', 'max:255', Rule::unique(User::class)->ignore($this->input('user_id'))],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->input('user_id'))],
         ];
     }
 }
