@@ -34,12 +34,14 @@ class AddressController extends Controller
             ->values()
             ->filter(function ($value) {
                 return Str::of($value)->trim()->isNotEmpty();
-            });
+            })
+            ->isNotEmpty();
 
         $address = Address::find($id);
         $address = $address ?? new Address();
         $address->fill($request->all());
         $address->address_type = $hasLegalEntity ? 'legal' : 'individual';
+        $address->save();
 
         /** @var LegalEntity|null $legalEntity */
         $legalEntity = $address->legalEntity;
@@ -52,9 +54,6 @@ class AddressController extends Controller
         } else {
             $legalEntity?->delete();
         }
-
-
-        $address->save();
 
         return redirect()->route('address', [
             'userId' => $request->input('user_id'),

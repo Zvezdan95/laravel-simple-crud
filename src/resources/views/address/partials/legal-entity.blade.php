@@ -10,7 +10,7 @@
     <div>
         <x-input-label for="company_name" :value="__('Company Name')"/>
         <x-text-input form="address-form" id="company_name" name="legal_entity[company_name]" type="text" class="mt-1 block w-full"
-                      :value="old('company_name', $address?->legalEntity->company_name ?? '')" required autofocus/>
+                      :value="old('company_name', $address?->legalEntity->company_name ?? '')"  autofocus/>
         <x-input-error :messages="$errors->get('company_name')" class="mt-2"/>
     </div>
 
