@@ -19,18 +19,7 @@
             background-color: #111827;
         }
 
-        button.btn {
-            background-color: white;
-            border-radius: 0.5rem;
-            color: #111827;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        button:hover.btn {
-            color: #1f2937;
-            background-color: #b3b3b3;
-        }
+       
         .action-cell{
             display: flex;
             align-items: center;

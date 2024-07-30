@@ -16,7 +16,7 @@
                                 <option value="{{$status->value}}">{{$status->toLabel()}}</option>
                             @endforeach
                         </select>
-                        <button class="btn ml-4" type="submit">Change Status</button>
+                        <x-primary-button class="btn ml-4" type="submit">Change Status</x-primary-button>
                     </form>
                 </div>
             </div>
@@ -40,7 +40,13 @@
                         @foreach($users as $user)
                             <tr>
                                 @foreach($userHeaders as $key => $header)
-                                    <td class="text-center">{{$user->$key ?: "--"}}</td>
+                                    <td class="text-center">
+                                        @if($key === "profile_picture" && $user->profile_picture)
+                                            <img src="{{$user->getProfilePicture()}}" alt="profile pic" height="64" width="64">
+                                        @else
+                                            {{$user->$key ?: "--"}}
+                                        @endif
+                                    </td>
                                 @endforeach
                                 <td>
                                     <input form="change-user-status-form" name="selected[{{$user->id}}]"
@@ -50,7 +56,7 @@
                                     <form action="/admin/delete-user" method="POST">
                                         @csrf
                                         <input type="hidden" name="delete_user" value="{{$user->id}}">
-                                        <button class="btn" type="submit">Delete</button>
+                                        <x-primary-button class="btn" type="submit">Delete</x-primary-button>
                                     </form>
                                     <a class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                                        href="#">Edit</a>

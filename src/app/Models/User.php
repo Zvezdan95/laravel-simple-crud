@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use App\Casts\ProfilePicture;
 use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -16,7 +20,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ["name", "email", "password", "phone_number", "profile_picture", "status"];
+    protected $fillable = ["name", "email", "password", "phone_number", "profile_picture", "status", "username"];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -37,5 +41,24 @@ class User extends Authenticatable
             "password" => "hashed",
             "status" => UserStatus::class,
         ];
+    }
+
+    public function setProfilePicture(UploadedFile $uploadedFile): self
+    {
+        $currentProfilePicture = $this->profile_picture;
+
+        if ($currentProfilePicture) {
+            Storage::delete($currentProfilePicture);
+        }
+
+        $path = Storage::putFile('/public/profile_images', $uploadedFile);
+        $this->profile_picture = $path;
+
+        return $this;
+    }
+
+    public function getProfilePicture(): ?string
+    {
+        return Storage::url($this->profile_picture);
     }
 }
