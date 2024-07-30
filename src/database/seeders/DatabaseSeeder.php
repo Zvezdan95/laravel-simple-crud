@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Country;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -28,5 +30,25 @@ class DatabaseSeeder extends Seeder
             "email" => "testinactive@example.com",
             "password" => "password"
         ]);
+        $countries = [
+            'Serbia',
+            'Hungary',
+            'United States',
+            'Canada',
+            'United Kingdom',
+            'Germany',
+            'France',
+            'Japan',
+            'Australia',
+            'Brazil',
+            'China',
+            'India'
+        ];
+
+        foreach ($countries as $countryName) {
+            Country::create([
+                'name' => $countryName
+            ]);
+        }
     }
 }
