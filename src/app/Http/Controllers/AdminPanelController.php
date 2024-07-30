@@ -14,7 +14,7 @@ class AdminPanelController extends Controller
     {
         return view('dashboard', [
             "userStatuses" => UserStatus::cases(),
-            "users" => User::all(),
+            "users" => User::paginate(15),
             "userHeaders" => [
                 "profile_picture" => "Profile Picture",
                 "name" => "Name",
