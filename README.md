@@ -17,6 +17,12 @@
 
 </div>
 
+## Need To Know
+Run in this order just to test out the app
+- `make run-app-with-setup-db` : build docker and start all docker containers with Laravel setup + database migration and seeder
+- `make enter-php-container` : enter docker php container
+- `php artisan app:seed-users-and-addresses` : run within the Docker container to seed with commend
+
 <!-- ABOUT THE PROJECT -->
 ## Features
 
